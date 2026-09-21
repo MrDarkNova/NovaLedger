@@ -1,63 +1,68 @@
-const KEY = 'novaledger-v1';
-const naira = (n) => '₦' + Number(n).toLocaleString();
-const load = () => JSON.parse(localStorage.getItem(KEY) || 'null') || {
-  cash: 124500,
-  pots: [{ name: 'Target', amount: 45000 }],
-  log: [{ t: Date.now(), text: 'Starting balance loaded' }],
-};
-let state = load();
+const KEY = 'novaledger-v3';
+const $ = (id) => document.getElementById(id);
+const naira = (n) => '₦' + Number(n || 0).toLocaleString();
+const services = [
+  { id: 'airtime', label: 'Airtime', hint: 'Any network' },
+  { id: 'data', label: 'Data', hint: 'SIM only' },
+  { id: 'cable', label: 'Cable TV', hint: 'DSTV / GOTV' },
+  { id: 'power', label: 'Electricity', hint: 'Meter' },
+  { id: 'send', label: 'Transfer', hint: 'Wallet to name' },
+  { id: 'ajo', label: 'Ajo pot', hint: 'Save locally' },
+];
+let state = JSON.parse(localStorage.getItem(KEY) || 'null') || { name: '', bal: 0, log: [] };
 const save = () => localStorage.setItem(KEY, JSON.stringify(state));
-const push = (text) => { state.log.unshift({ t: Date.now(), text }); save(); draw(); };
 
-function draw() {
-  const potSum = state.pots.reduce((s, p) => s + Number(p.amount), 0);
-  document.getElementById('avail').textContent = naira(state.cash);
-  document.getElementById('inPots').textContent = naira(potSum);
-  document.getElementById('total').textContent = naira(state.cash + potSum);
-  document.getElementById('pots').innerHTML = state.pots.map((p, i) =>
-    `<li>${p.name} — ${naira(p.amount)} <button data-back="${i}">Return</button></li>`
-  ).join('') || '<li>No pots</li>';
-  document.getElementById('log').innerHTML = state.log.slice(0, 12).map(
-    (l) => `<li>${new Date(l.t).toLocaleString()} — ${l.text}</li>`
+function showApp() {
+  $('gate').classList.add('hide');
+  $('app').classList.remove('hide');
+  render();
+}
+function render() {
+  $('avail').textContent = naira(state.bal);
+  $('grid').innerHTML = services.map((s) =>
+    `<button class="tile" data-svc="${s.id}">${s.label}<small>${s.hint}</small></button>`
   ).join('');
+  $('log').innerHTML = (state.log.slice(0, 12).map((l) => `<li>${l}</li>`).join('')) || '<li>No activity yet.</li>';
+}
+function pay(label, amt) {
+  const n = Number(amt);
+  if (!n || n <= 0) return alert('Enter an amount');
+  if (n > state.bal) return alert('Not enough demo funds');
+  state.bal -= n;
+  state.log.unshift(`${label} − ${naira(n)}`);
+  save(); render();
+  $('panel').classList.add('hide');
 }
 
-document.getElementById('move').onsubmit = (e) => {
+$('login').onsubmit = (e) => {
   e.preventDefault();
-  const amt = Number(new FormData(e.target).get('amount'));
-  const act = e.submitter.value;
-  if (act === 'in') { state.cash += amt; push('Deposited ' + naira(amt)); }
-  else if (amt > state.cash) { alert('Not enough available cash'); }
-  else { state.cash -= amt; push('Withdrew ' + naira(amt)); }
+  state.name = new FormData(e.target).get('name');
+  save(); showApp();
 };
-
-document.getElementById('pot').onsubmit = (e) => {
+$('out').onclick = () => { $('app').classList.add('hide'); $('gate').classList.remove('hide'); };
+$('fund').onsubmit = (e) => {
   e.preventDefault();
-  const data = Object.fromEntries(new FormData(e.target));
-  const amt = Number(data.amount || 0);
-  if (amt > state.cash) { alert('Not enough available cash'); return; }
-  state.cash -= amt;
-  const existing = state.pots.find((p) => p.name === data.name);
-  if (existing) existing.amount += amt;
-  else state.pots.push({ name: data.name, amount: amt });
-  e.target.reset();
-  push('Moved ' + naira(amt) + ' into ' + data.name);
+  const n = Number(new FormData(e.target).get('amount'));
+  state.bal += n;
+  state.log.unshift(`Funded ${naira(n)}`);
+  save(); render(); e.target.reset();
 };
-
-document.getElementById('pots').onclick = (e) => {
-  const i = e.target.dataset.back;
-  if (i == null) return;
-  const pot = state.pots[Number(i)];
-  state.cash += Number(pot.amount);
-  push('Returned ' + naira(pot.amount) + ' from ' + pot.name);
-  state.pots.splice(Number(i), 1);
-  save(); draw();
+$('grid').onclick = (e) => {
+  const id = e.target.closest('[data-svc]')?.dataset.svc;
+  if (!id) return;
+  const s = services.find((x) => x.id === id);
+  $('panel').classList.remove('hide');
+  $('panel').innerHTML = `<h3>${s.label}</h3>
+    <p>Demo only. Deducts from the local balance.</p>
+    <form id="svc">
+      <input name="ref" required placeholder="Phone / decoder / meter / name" />
+      <input name="amount" type="number" min="50" required placeholder="Amount (₦)" />
+      <button>Pay (simulate)</button>
+    </form>`;
+  $('svc').onsubmit = (ev) => {
+    ev.preventDefault();
+    const d = Object.fromEntries(new FormData(ev.target));
+    pay(`${s.label} · ${d.ref}`, d.amount);
+  };
 };
-
-document.getElementById('reset').onclick = () => {
-  localStorage.removeItem(KEY);
-  state = load();
-  draw();
-};
-
-draw();
+if (state.name) showApp();

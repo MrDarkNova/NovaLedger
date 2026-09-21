@@ -4,53 +4,45 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>NovaLedger — Simulated wallet</title>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <aside class="side">
-    <div class="brand">
-      <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="9" fill="#3dd68c"/><path d="M8 22V10h16v3h-12v2.2h10v3H12v3.8h12V22H8z" fill="#06210f"/></svg>
-      <strong>NovaLedger</strong>
-    </div>
-    <p class="warn">SIMULATED WALLET. Not a licensed bank. No real naira moves. Numbers live only in this browser.</p>
-    <nav>
-      <a class="on" href="#home">Home</a>
-      <a href="#save">Pots</a>
-      <a href="#tx">Activity</a>
-    </nav>
-  </aside>
-  <main>
-    <header>
-      <p class="kicker">Local simulation</p>
-      <h1>Wallet</h1>
-      <p>Deposit, withdraw, and park money in pots. Reset anytime. Nothing is sent to a server.</p>
-    </header>
-    <section class="cards" id="home">
-      <article><span>Available</span><b id="avail">₦0</b></article>
-      <article><span>In pots</span><b id="inPots">₦0</b></article>
-      <article><span>Total</span><b id="total">₦0</b></article>
-    </section>
-    <form id="move" class="row">
-      <input name="amount" type="number" min="100" step="100" required placeholder="Amount (₦)" />
-      <button name="act" value="in">Deposit</button>
-      <button name="act" value="out" class="ghost">Withdraw</button>
-    </form>
-    <section id="save">
-      <h2>Pots</h2>
-      <form id="pot" class="row">
-        <input name="name" required placeholder="Rent, school, phone" />
-        <input name="amount" type="number" min="100" placeholder="Move into pot" />
-        <button>Create / fund</button>
+  <div id="gate" class="gate">
+    <p class="logo">NovaLedger</p>
+    <p class="hero">Quick, simple<br/>bill payments</p>
+    <p class="sub">Airtime, data, cable — all simulated in this browser.</p>
+    <div class="card">
+      <h2>Welcome back</h2>
+      <p>Local demo login. Nothing is sent to a server.</p>
+      <form id="login">
+        <label>Name<input name="name" required placeholder="Victor Kumba" /></label>
+        <button type="submit">Open wallet</button>
       </form>
-      <ul id="pots"></ul>
+      <p class="fine">SIMULATION ONLY. Not SwiftPay. Not a licensed bank.</p>
+    </div>
+  </div>
+
+  <div id="app" class="app hide">
+    <header>
+      <strong>NovaLedger</strong>
+      <button id="out" class="ghost">Sign out</button>
+    </header>
+    <p class="banner">Simulated wallet · no real naira · numbers stay on this phone</p>
+    <section class="bal">
+      <span>Available</span>
+      <b id="avail">₦0</b>
+      <form id="fund">
+        <input name="amount" type="number" min="100" step="100" required placeholder="Fund wallet (₦)" />
+        <button>Add demo funds</button>
+      </form>
     </section>
-    <section id="tx">
-      <h2>Activity</h2>
+    <section class="grid" id="grid"></section>
+    <section class="panel hide" id="panel"></section>
+    <section>
+      <h3>Activity</h3>
       <ul id="log"></ul>
-      <button id="reset" class="ghost">Reset simulation</button>
     </section>
-  </main>
+  </div>
   <script src="app.js"></script>
 </body>
 </html>
