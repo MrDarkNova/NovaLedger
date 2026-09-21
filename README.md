@@ -1,2 +1,2 @@
 # NovaLedger
-Fictional microfinance UI demo — not a real bank
+Fictional microfinance UI for a portfolio. Not a licensed bank. Do not collect real KYC.

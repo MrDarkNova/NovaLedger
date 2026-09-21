@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>NovaLedger — Demo microfinance UI</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <aside class="side">
+    <strong>NovaLedger</strong>
+    <p class="warn">FICTIONAL DEMO. Not a real bank. Do not enter real account numbers or BVN.</p>
+    <nav>
+      <a class="on" href="#home">Home</a>
+      <a href="#save">Save</a>
+      <a href="#loan">Loans</a>
+    </nav>
+  </aside>
+  <main>
+    <header>
+      <h1>Good morning, Demo User</h1>
+      <p>Sample balances for a portfolio walkthrough.</p>
+    </header>
+    <section class="cards" id="home">
+      <article><span>Savings</span><b>₦124,500</b></article>
+      <article><span>Target pot</span><b>₦45,000</b></article>
+      <article><span>Loan remaining</span><b>₦18,200</b></article>
+    </section>
+    <section id="save">
+      <h2>Create a pot</h2>
+      <form id="pot">
+        <input name="name" required placeholder="Rent, school, phone" />
+        <input name="amount" type="number" min="500" placeholder="Target (₦)" />
+        <button>Add pot (local only)</button>
+      </form>
+      <ul id="pots"></ul>
+    </section>
+    <section id="loan">
+      <h2>Sample loan offer</h2>
+      <p>Illustrative only. ₦50,000 over 8 weeks at a demo rate. No application is sent anywhere.</p>
+    </section>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
