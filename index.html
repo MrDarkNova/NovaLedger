@@ -4,12 +4,16 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>NovaLedger — Demo microfinance UI</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <aside class="side">
-    <strong>NovaLedger</strong>
-    <p class="warn">FICTIONAL DEMO. Not a real bank. Do not enter real account numbers or BVN.</p>
+    <div class="brand">
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="9" fill="#3dd68c"/><path d="M8 22V10h16v3h-12v2.2h10v3H12v3.8h12V22H8z" fill="#06210f"/></svg>
+      <strong>NovaLedger</strong>
+    </div>
+    <p class="warn">FICTIONAL DEMO. Not a licensed bank. Do not enter a real BVN, NIN, or account number.</p>
     <nav>
       <a class="on" href="#home">Home</a>
       <a href="#save">Save</a>
@@ -18,8 +22,9 @@
   </aside>
   <main>
     <header>
-      <h1>Good morning, Demo User</h1>
-      <p>Sample balances for a portfolio walkthrough.</p>
+      <p class="kicker">Sample member</p>
+      <h1>Good morning.</h1>
+      <p>Walkthrough balances for a product demo. Nothing is posted to a server.</p>
     </header>
     <section class="cards" id="home">
       <article><span>Savings</span><b>₦124,500</b></article>
@@ -31,13 +36,13 @@
       <form id="pot">
         <input name="name" required placeholder="Rent, school, phone" />
         <input name="amount" type="number" min="500" placeholder="Target (₦)" />
-        <button>Add pot (local only)</button>
+        <button>Add pot</button>
       </form>
       <ul id="pots"></ul>
     </section>
     <section id="loan">
       <h2>Sample loan offer</h2>
-      <p>Illustrative only. ₦50,000 over 8 weeks at a demo rate. No application is sent anywhere.</p>
+      <p>Illustrative ₦50,000 / 8 weeks. No application leaves this page.</p>
     </section>
   </main>
   <script src="app.js"></script>

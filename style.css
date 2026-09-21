@@ -1,15 +1,18 @@
 :root{--bg:#07110e;--card:#10211b;--line:#234037;--text:#eef8f3;--muted:#9cb5ab;--accent:#3dd68c}
-*{box-sizing:border-box}body{margin:0;font-family:ui-sans-serif,system-ui,sans-serif;background:var(--bg);color:var(--text);display:grid;grid-template-columns:240px 1fr;min-height:100vh}
-.side{padding:22px;border-right:1px solid var(--line);background:#06130f}
-.warn{font-size:12px;color:#fbbf24;line-height:1.4}
-nav{display:flex;flex-direction:column;gap:10px;margin-top:20px}
+*{box-sizing:border-box}body{margin:0;font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--text);display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+.side{padding:24px;border-right:1px solid var(--line);background:#06130f}
+.brand{display:flex;gap:10px;align-items:center;margin-bottom:16px}
+.warn{font-size:12px;color:#fbbf24;line-height:1.45}
+nav{display:flex;flex-direction:column;gap:10px;margin-top:22px}
 nav a{color:var(--muted);text-decoration:none}
 nav a.on,nav a:hover{color:var(--accent)}
-main{padding:28px 22px 80px}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
-.cards article{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px}
-.cards b{display:block;font-size:26px;margin-top:8px}
+main{padding:36px 24px 80px;background:radial-gradient(600px 240px at 100% 0%,#143528 0%,transparent 50%)}
+.kicker{letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-size:11px;font-weight:700}
+h1{font-family:Syne,sans-serif;font-size:clamp(32px,6vw,48px);margin:6px 0}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin:24px 0}
+.cards article{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px}
+.cards b{display:block;font-size:28px;margin-top:8px;font-family:Syne,sans-serif}
 form{display:flex;gap:8px;flex-wrap:wrap}
-input,button{border-radius:12px;border:1px solid var(--line);padding:10px 12px;background:#0c1c17;color:var(--text)}
+input,button{border-radius:12px;border:1px solid var(--line);padding:10px 12px;background:#0c1c17;color:var(--text);font:inherit}
 button{background:var(--accent);color:#06210f;border:0;font-weight:700;cursor:pointer}
 @media(max-width:760px){body{grid-template-columns:1fr}.side{border-right:0;border-bottom:1px solid var(--line)}}
