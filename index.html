@@ -1,48 +1,66 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>NovaLedger — Simulated wallet</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>NovaLedger: simulated wallet</title>
+  <meta name="description" content="Practice paying bills with demo naira: airtime, data, cable, power and a savings pot. Simulation only. Not a bank." />
+  <meta name="color-scheme" content="dark light" />
+  <meta name="theme-color" content="#2437d9" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232437d9'/%3E%3Cpath d='M20 46V18l24 28V18' fill='none' stroke='white' stroke-width='6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=B612:wght@400;700&display=swap" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div id="gate" class="gate">
-    <p class="logo">NovaLedger</p>
-    <p class="hero">Quick, simple<br/>bill payments</p>
-    <p class="sub">Airtime, data, cable — all simulated in this browser.</p>
-    <div class="card">
-      <h2>Welcome back</h2>
-      <p>Local demo login. Nothing is sent to a server.</p>
-      <form id="login">
-        <label>Name<input name="name" required placeholder="Victor Kumba" /></label>
-        <button type="submit">Open wallet</button>
-      </form>
-      <p class="fine">SIMULATION ONLY. Not SwiftPay. Not a licensed bank.</p>
-    </div>
+  <main id="gate" class="gate">
+    <section class="top">
+      <p class="logo">NovaLedger</p>
+      <h1>Bill payments, simulated.</h1>
+      <p>Airtime, data, cable, power and a savings pot. All of it runs in this browser with demo naira.</p>
+    </section>
+    <form id="login" class="card">
+      <h2>Open your demo wallet</h2>
+      <label>Your name<input name="name" required minlength="2" autocomplete="given-name" placeholder="Victor Kumba" /></label>
+      <button class="primary" type="submit">Open wallet</button>
+      <p class="fine"><b>Simulation only.</b> No real money, no bank, no server. Not SwiftPay.</p>
+    </form>
+  </main>
+
+  <div id="app" hidden>
+    <header class="bar">
+      <strong>NovaLedger</strong>
+      <button id="out" class="ghost small" type="button">Sign out</button>
+    </header>
+    <main class="wrap">
+      <p class="note">Simulation: demo naira only. Nothing leaves this device.</p>
+
+      <section class="balance" aria-label="Wallet">
+        <div class="row"><h1 id="hi" tabindex="-1">Hi</h1><span class="chip">Simulated</span></div>
+        <p class="lbl">Available</p>
+        <p class="amount" id="avail">₦0</p>
+        <p class="potline">Ajo pot <b id="pot">₦0</b></p>
+        <div class="quick" role="group" aria-label="Add demo funds">
+          <button type="button" data-fund="100000">+₦1,000</button>
+          <button type="button" data-fund="500000">+₦5,000</button>
+          <button type="button" data-fund="2000000">+₦20,000</button>
+          <button type="button" data-svc="fund">Other</button>
+        </div>
+      </section>
+
+      <section aria-labelledby="payT"><h2 id="payT">Pay and save</h2><div id="grid" class="grid"></div></section>
+      <section aria-labelledby="actT"><h2 id="actT">Activity</h2><ul id="log"></ul></section>
+
+      <footer class="foot">
+        <button id="reset" class="ghost small" type="button">Reset demo</button>
+        <p>Simulation only. Not a licensed bank. Not SwiftPay.</p>
+      </footer>
+    </main>
   </div>
 
-  <div id="app" class="app hide">
-    <header>
-      <strong>NovaLedger</strong>
-      <button id="out" class="ghost">Sign out</button>
-    </header>
-    <p class="banner">Simulated wallet · no real naira · numbers stay on this phone</p>
-    <section class="bal">
-      <span>Available</span>
-      <b id="avail">₦0</b>
-      <form id="fund">
-        <input name="amount" type="number" min="100" step="100" required placeholder="Fund wallet (₦)" />
-        <button>Add demo funds</button>
-      </form>
-    </section>
-    <section class="grid" id="grid"></section>
-    <section class="panel hide" id="panel"></section>
-    <section>
-      <h3>Activity</h3>
-      <ul id="log"></ul>
-    </section>
-  </div>
+  <dialog id="sheet" aria-labelledby="sheetTitle"><div id="sheetBody"></div></dialog>
+  <p id="live" class="sr" aria-live="polite"></p>
   <script src="app.js"></script>
 </body>
 </html>
